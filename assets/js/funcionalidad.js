@@ -131,6 +131,7 @@ class Board{
 			var jsonBoard = JSON.parse(cadena).cells;
 			this.rows = Object.keys(jsonBoard).length;
 			this.cols = jsonBoard[0].length;
+			this.createBoards();
 			this.fillFromJson(jsonBoard);
 		})
 		.catch((msg) => {
@@ -138,24 +139,25 @@ class Board{
 		});
 	}
 
-	fillFromJson(json){
-		//recorrer el json
-		//e ir llenando el nuevo tablero
+	fillFromJson(jsonBoard){
+		for (let i = 0; i < this.rows; i++) 
+			for (let j = 0; j < this.cols; j++) 
+				this.completeFirstBoard[i][j] = jsonBoard[i][j];
 	}
 }
 
 
 function manualStart(){
-	//jalar los datos del millis, row y col
-	//enviarlos al nuevo objeto que se cree
-	board = new Board(10, 4, 1000);
+	var rows = 0;
+	var cols = 0;
+	var time = 0;
+	board = new Board(rows, cols, time);
 }
 
 
 function apiStart(){
-	//jalar los datos del millis
-	//enviar millis al nuevo objeto que se cree
-	board = new Board(0, 0, 1000);
+	var time = 0;
+	board = new Board(0, 0, time);
 	board.createBoardFromAPI();
 }
 
