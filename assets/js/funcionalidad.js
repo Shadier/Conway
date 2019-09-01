@@ -2,12 +2,17 @@
 
 class Board{
 
-	constructor(rows, cols) {
+	constructor(rows, cols, millis) {
 	    this.rows = rows;
 	    this.cols = cols;
+	    this.millis = millis;
 	    this.completeFirstBoard;
 	    this.completeSecondBoard;
 	    this.createBoards();
+	}
+
+	setMillis(millis){
+		this.millis = millis;
 	}
 
 	createBoards() {
@@ -39,11 +44,14 @@ class Board{
 		for (let i = 0; i < this.rows; i++) 
 			for (let j = 0; j < this.cols; j++) 
 				this.completeSecondBoard[i][j] = this.aliveNeighbors(i, j);
-
+		this.showChanges();
+		setInterval(this.play, this.millis);
+	}
+	showChanges(){
 		this.cloneBoard(this.completeFirstBoard, this.completeSecondBoard);
 		this.clearBoard(this.completeSecondBoard);
+		console.log("actualizado");
 	}
-
 	cloneBoard(paste, copy){
 		for (let i = 0; i < this.rows; i++) 
 			for (let j = 0; j < this.cols; j++) 
@@ -84,10 +92,35 @@ class Board{
 	up(pos, max){
 		return ((pos + 1) + max) % max;
 	}
+
+
+	createBoardFromAPI(){
+		return new Promise((done, reject) => {
+			var req = new XMLHttpRequest();
+			req.onreadystatechange = function (aEvt) {
+				if (req.readyState == 4) 
+					if(req.status == 200)
+						done(req.responseText);
+					else
+						reject(req.status);
+			};
+			req.open('GET', 'https://api.noopschallenge.com/automatabot/rules/conway/random/', true);
+			req.send();
+		})
+		.then((cadena) => {
+			var jsonBoard = JSON.parse(cadena).cells;
+			var rows = Object.keys(jsonBoard).length;
+			var cols = jsonBoard[0].length;
+			console.log(`El tablero tendra ${rows} filas y ${cols} columnas`);
+		})
+		.catch((msg) => {
+			console.log("Error resolviendo el API, error: " + msg);
+		});
+	}
 }
 
 
-var nuevo = new Board(10,4);
+var nuevo = new Board(10,4, 1000);
 con(nuevo);
 
 
