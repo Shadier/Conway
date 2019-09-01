@@ -1,5 +1,9 @@
 'use strict';
 
+var millis;
+var board;
+
+
 class Board{
 
 	constructor(rows, cols, millis) {
@@ -8,6 +12,8 @@ class Board{
 	    this.millis = millis;
 	    this.completeFirstBoard;
 	    this.completeSecondBoard;
+	    this.status = false;
+	    this.timer;
 	    this.createBoards();
 	}
 
@@ -40,14 +46,36 @@ class Board{
 				board[i][j] = 0;
 	}
 
-	play(){
-		for (let i = 0; i < this.rows; i++) 
-			for (let j = 0; j < this.cols; j++) 
-				this.completeSecondBoard[i][j] = this.aliveNeighbors(i, j);
-		this.cloneBoard(this.completeFirstBoard, this.completeSecondBoard);
-		this.clearBoard(this.completeSecondBoard);
-		console.log("actualizado");
+	updateMillis(newValue){
+		this.millis = newValue;
+		//Aqui mas bien jala directo el valor del input
 	}
+
+	play(status = true, consol = "defecto"){
+		this.status = status;
+		if ((this.millis > 100 && status == true) || status == false) {
+			for (let i = 0; i < this.rows; i++) 
+				for (let j = 0; j < this.cols; j++) 
+					this.completeSecondBoard[i][j] = this.aliveNeighbors(i, j);
+			this.cloneBoard(this.completeFirstBoard, this.completeSecondBoard);
+			this.clearBoard(this.completeSecondBoard);
+			console.log(consol);
+			if (this.status)
+				this.timer = setTimeout('nuevo.play()', this.millis);
+		}else{
+			console.error("Millis doesn't have a required value!");
+		}
+		
+	}
+	stop(){
+		clearTimeout(this.timer);
+	}
+
+	nextStep(){
+		this.stop();
+		this.play(false, "bnuevp valor");
+	}
+
 	cloneBoard(paste, copy){
 		for (let i = 0; i < this.rows; i++) 
 			for (let j = 0; j < this.cols; j++) 
@@ -64,12 +92,10 @@ class Board{
 		alive += this.completeFirstBoard[this.up(n, this.rows)][this.down(m, this.cols)];
 		alive += this.completeFirstBoard[this.up(n, this.rows)][m];
 		alive += this.completeFirstBoard[this.up(n, this.rows)][this.up(m, this.cols)];
-
 		return this.applyRules(this.completeFirstBoard[n][m], alive);
 	}
 
 	applyRules(cell, aliveNeighbors){
-		
 		if (cell == 1 && (aliveNeighbors == 2 || aliveNeighbors == 3)) {
 			cell = 1;
 		}else if (cell == 0 && aliveNeighbors == 3) {
@@ -77,7 +103,6 @@ class Board{
 		}else{
 			cell = 0;
 		}
-
 		return cell;
 	}
 
@@ -88,7 +113,6 @@ class Board{
 	up(pos, max){
 		return ((pos + 1) + max) % max;
 	}
-
 
 	createBoardFromAPI(){
 		return new Promise((done, reject) => {
@@ -105,82 +129,36 @@ class Board{
 		})
 		.then((cadena) => {
 			var jsonBoard = JSON.parse(cadena).cells;
-			var rows = Object.keys(jsonBoard).length;
-			var cols = jsonBoard[0].length;
-			console.log(`El tablero tendra ${rows} filas y ${cols} columnas`);
+			this.rows = Object.keys(jsonBoard).length;
+			this.cols = jsonBoard[0].length;
+			this.fillFromJson(jsonBoard);
 		})
 		.catch((msg) => {
 			console.log("Error resolviendo el API, error: " + msg);
 		});
 	}
+
+	fillFromJson(json){
+		//recorrer el json
+		//e ir llenando el nuevo tablero
+	}
 }
 
 
-var nuevo = new Board(10,4, 1000);
-con(nuevo);
-
-
-
-var millis = 1000;
-var interval;
-
-function iniciar(){
-	timer.start('nuevo.play()', millis);
-
-	
-
+function manualStart(){
+	//jalar los datos del millis, row y col
+	//enviarlos al nuevo objeto que se cree
+	board = new Board(10, 4, 1000);
 }
 
 
-function updateMillis(newValue){
-	timer.stop();
-	timer.set_interval(newValue);
-
+function apiStart(){
+	//jalar los datos del millis
+	//enviar millis al nuevo objeto que se cree
+	board = new Board(0, 0, 1000);
+	board.createBoardFromAPI();
 }
 
 
 
 
-var timer = {
-    running: false,
-    millis: 5000,
-    timeout: false,
-    cb : function(){},
-    start : function(cb,millis){
-        var elm = this;
-        clearInterval(this.timeout);
-        this.running = true;
-        if(cb) this.cb = cb;
-        if(millis) this.millis = millis;
-        this.timeout = setTimeout(function(){elm.execute(elm)}, this.millis);
-    },
-    execute : function(e){
-        if(!e.running) return false;
-        e.cb();
-        e.start();
-    },
-    stop : function(){
-        this.running = false;
-    },
-    set_interval : function(millis){
-        clearInterval(this.timeout);
-        this.start(false, millis);
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function con(argument) {
-	console.log(argument);
-}
