@@ -44,10 +44,6 @@ class Board{
 		for (let i = 0; i < this.rows; i++) 
 			for (let j = 0; j < this.cols; j++) 
 				this.completeSecondBoard[i][j] = this.aliveNeighbors(i, j);
-		this.showChanges();
-		setInterval(this.play, this.millis);
-	}
-	showChanges(){
 		this.cloneBoard(this.completeFirstBoard, this.completeSecondBoard);
 		this.clearBoard(this.completeSecondBoard);
 		console.log("actualizado");
@@ -125,15 +121,52 @@ con(nuevo);
 
 
 
+var millis = 1000;
+var interval;
+
+function iniciar(){
+	timer.start('nuevo.play()', millis);
+
+	
+
+}
+
+
+function updateMillis(newValue){
+	timer.stop();
+	timer.set_interval(newValue);
+
+}
 
 
 
 
-
-
-
-
-
+var timer = {
+    running: false,
+    millis: 5000,
+    timeout: false,
+    cb : function(){},
+    start : function(cb,millis){
+        var elm = this;
+        clearInterval(this.timeout);
+        this.running = true;
+        if(cb) this.cb = cb;
+        if(millis) this.millis = millis;
+        this.timeout = setTimeout(function(){elm.execute(elm)}, this.millis);
+    },
+    execute : function(e){
+        if(!e.running) return false;
+        e.cb();
+        e.start();
+    },
+    stop : function(){
+        this.running = false;
+    },
+    set_interval : function(millis){
+        clearInterval(this.timeout);
+        this.start(false, millis);
+    }
+};
 
 
 
