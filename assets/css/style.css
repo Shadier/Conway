@@ -1,0 +1,74 @@
+*{
+	--marginTB: 20px;
+	--marginLR: 100px;
+
+	--primario: #222831;
+	--secundario: #393e46;
+	--resaltes: #00adb5;
+	--cuarto: #eeeeee;
+
+	font-family: 'Roboto';
+	font-size: 16px;
+	margin: 0px;
+	padding: 0px;
+
+	color: var(--cuarto);
+}
+
+
+/*start - cabecera*/
+	.cabecera{
+		padding: var(--marginTB) var(--marginLR);
+		background: var(--primario);
+		box-sizing: border-box;
+	}
+		.cabecera h1,
+		.cabecera h3{
+			text-align: center;
+			display: block;
+			box-sizing: border-box;
+		}
+			.cabecera h1{
+				letter-spacing: 5px;
+				font-size: 2.5rem;
+			}
+			.cabecera h3{
+				letter-spacing: 1.5px;
+				font-size: 1.1rem;
+			}
+/*end - cabecera*/
+
+/*start - controles-superiores*/
+	.controles-superiores{
+		padding: var(--marginTB) var(--marginLR);
+		background: var(--secundario);
+		box-sizing: border-box;
+	}
+			button{
+				background-color: var(--cuarto);
+				color: var(--secundario);
+				border: 0px;
+				padding: 8px;
+				width: 60px;
+				outline: none !important;
+				cursor: pointer;
+				-webkit-box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,1);
+				-moz-box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,1);
+				box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,1);
+				transition: all 0.3s;
+			}	
+				button.active{
+					background-color: var(--resaltes);
+					color: white;
+					-webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,1);
+					-moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,1);
+					box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,1);
+					transition: all 0.3s;
+				}
+				button.manual{
+					border-radius: 4px 0px 0px 4px;
+				}
+				button.api{
+					border-radius: 0px 4px 4px 0px;
+				}
+/*end - controles-superiores*/
