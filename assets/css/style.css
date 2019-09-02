@@ -1,11 +1,14 @@
 *{
 	--marginTB: 20px;
-	--marginLR: 100px;
+	--marginLR: 50px;
 
 	--primario: #222831;
 	--secundario: #393e46;
 	--resaltes: #00adb5;
 	--cuarto: #eeeeee;
+
+	--muerto: rgb(240,240,240);
+	--vivo: #00adb5;
 
 	font-family: 'Roboto';
 	font-size: 16px;
@@ -14,6 +17,12 @@
 
 	color: var(--cuarto);
 }
+	.bg-vivo{
+		background-color: var(--vivo);
+	}
+	.bg-muerto{
+		background-color: var(--muerto);
+	}
 
 
 /*start - cabecera*/
@@ -43,6 +52,8 @@
 		padding: var(--marginTB) var(--marginLR);
 		background: var(--secundario);
 		box-sizing: border-box;
+		display: flex;
+		justify-content: space-between;
 	}
 			button{
 				background-color: var(--cuarto);
@@ -71,4 +82,63 @@
 				button.api{
 					border-radius: 0px 4px 4px 0px;
 				}
+	.cs-izquierda,
+	.cs-derecha{
+		display: flex;
+		vertical-align: middle;
+	}
+		.indicadores{
+			line-height: 33px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.indicadores .cuadro-color,
+		.indicadores p{
+			vertical-align: middle;
+			margin-left: 12px;
+			margin-right: 20px;
+			display: inline-block;
+		}
+		.indicadores .cuadro-color{
+			padding: 0px;
+			margin: 0px;
+			min-width: 20px;
+			width: 20px;
+			max-width: 20px;
+			min-height: 20px;
+			height: 20px;
+			max-height: 20px;
+			display: inline-block;
+		}
+		.indicadores .color-vivo{
+			background: var(--vivo);
+		}
+		.indicadores .color-muerto{
+			background: var(--muerto);
+		}
 /*end - controles-superiores*/
+
+
+/*start - cuadricula*/
+	.cuadricula{
+		background: gray;
+		margin: 60px 200px;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		max-width: 500px;
+		min-width: 100px;
+		margin-left: auto;
+		margin-right: auto;
+		grid-auto-rows: minmax(0px, auto);
+		grid-gap: 1px;
+		padding: 1px;
+	}
+		.cuadro{
+			height: 20px;
+			background: var(--muerto);
+		}
+		.cuadro.active{
+			background: var(--vivo);
+		}
+/*end - cuadricula*/
+
