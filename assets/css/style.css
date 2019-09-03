@@ -88,15 +88,20 @@
 		vertical-align: middle;
 	}
 		.indicadores{
+			margin-right: 20px;
+		}
+		.indicadores,
+		.definiciones{
 			line-height: 33px;
 			display: inline-block;
 			vertical-align: middle;
+			margin-right: 20px;
 		}
 		.indicadores .cuadro-color,
 		.indicadores p{
 			vertical-align: middle;
-			margin-left: 12px;
-			margin-right: 20px;
+			margin-left: 10px;
+			margin-right: 10px;
 			display: inline-block;
 		}
 		.indicadores .cuadro-color{
@@ -116,6 +121,19 @@
 		.indicadores .color-muerto{
 			background: var(--muerto);
 		}
+
+			.definiciones input[type = "number"]{
+				border-radius: 5px;
+				border: none;
+				padding: 4px 1px;
+				text-align: center;
+				color: gray;
+				outline: none;
+			}
+			.definiciones label{
+				margin-right: 6px;
+				margin-left: 6px;
+			}
 /*end - controles-superiores*/
 
 
