@@ -17,10 +17,6 @@ class Board{
 	    this.createBoards();
 	}
 
-	setMillis(millis){
-		this.millis = millis;
-	}
-
 	createBoards() {
 		var completeFirstBoard = new Array(this.rows);
 		var completeSecondBoard = new Array(this.rows);
@@ -48,10 +44,9 @@ class Board{
 
 	updateMillis(newValue){
 		this.millis = newValue;
-		//Aqui mas bien jala directo el valor del input
 	}
 
-	play(status = true, consol = "defecto"){
+	play(status = true){
 		this.status = status;
 		if ((this.millis > 100 && status == true) || status == false) {
 			for (let i = 0; i < this.rows; i++) 
@@ -59,9 +54,9 @@ class Board{
 					this.completeSecondBoard[i][j] = this.aliveNeighbors(i, j);
 			this.cloneBoard(this.completeFirstBoard, this.completeSecondBoard);
 			this.clearBoard(this.completeSecondBoard);
-			console.log(consol);
+			console.log("entrando");
 			if (this.status)
-				this.timer = setTimeout('nuevo.play()', this.millis);
+				this.timer = setTimeout('interfaz.board.play()', this.millis);
 		}else{
 			console.error("Millis doesn't have a required value!");
 		}
@@ -73,7 +68,7 @@ class Board{
 
 	nextStep(){
 		this.stop();
-		this.play(false, "bnuevp valor");
+		this.play(false);
 	}
 
 	cloneBoard(paste, copy){

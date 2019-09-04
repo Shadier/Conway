@@ -1,11 +1,14 @@
 *{
 	--marginTB: 20px;
-	--marginLR: 100px;
+	--marginLR: 50px;
 
 	--primario: #222831;
 	--secundario: #393e46;
 	--resaltes: #00adb5;
 	--cuarto: #eeeeee;
+
+	--muerto: rgb(240,240,240);
+	--vivo: #00adb5;
 
 	font-family: 'Roboto';
 	font-size: 16px;
@@ -14,7 +17,52 @@
 
 	color: var(--cuarto);
 }
+	.bg-vivo{
+		background-color: var(--vivo);
+	}
+	.bg-muerto{
+		background-color: var(--muerto);
+	}
 
+	.btn{
+		background: var(--resaltes);
+		border-radius: 5px;
+		border: 0px;
+		padding: 2px 10px;
+		color: white;
+		width: auto;
+		outline: none !important;
+		cursor: pointer;
+		-webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+		-moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+		box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+		transition: all 0.1s;
+	}
+	.btn:hover{
+		-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.5);
+		-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.5);
+		box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.5);
+		transition: all 0.1s;
+	}
+	.btn:active{
+		background: var(--cuarto);
+		color: gray;
+		-webkit-box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
+		-moz-box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
+		box-shadow: inset 0px 0px 15px 0px rgba(0,0,0,0.5);
+		transition: all 0.1s;
+	}
+	.btn img{
+		vertical-align: middle;
+	}
+
+	.cs-derecha .btn{
+		margin-left: 15px;
+	}
+
+	.btn.inactive{
+		display: none;
+	}
 
 /*start - cabecera*/
 	.cabecera{
@@ -43,7 +91,10 @@
 		padding: var(--marginTB) var(--marginLR);
 		background: var(--secundario);
 		box-sizing: border-box;
+		display: flex;
+		justify-content: space-between;
 	}
+
 			button{
 				background-color: var(--cuarto);
 				color: var(--secundario);
@@ -57,6 +108,14 @@
 				box-shadow: inset 0px 0px 0px 0px rgba(0,0,0,1);
 				transition: all 0.3s;
 			}	
+				button.manual{
+					background: var(--cuarto);
+					border-radius: 4px 0px 0px 4px;
+				}
+				button.api{
+					background: var(--cuarto);
+					border-radius: 0px 4px 4px 0px;
+				}
 				button.active{
 					background-color: var(--resaltes);
 					color: white;
@@ -65,10 +124,107 @@
 					box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,1);
 					transition: all 0.3s;
 				}
-				button.manual{
-					border-radius: 4px 0px 0px 4px;
-				}
-				button.api{
-					border-radius: 0px 4px 4px 0px;
-				}
+	.cs-izquierda,
+	.cs-derecha{
+		display: flex;
+		vertical-align: middle;
+	}
+		.indicadores{
+			margin-right: 20px;
+		}
+		.indicadores,
+		.definiciones{
+			line-height: 33px;
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: 20px;
+		}
+		.indicadores .cuadro-color,
+		.indicadores p{
+			vertical-align: middle;
+			margin-left: 10px;
+			margin-right: 10px;
+			display: inline-block;
+		}
+		.indicadores .cuadro-color{
+			padding: 0px;
+			margin: 0px;
+			min-width: 20px;
+			width: 20px;
+			max-width: 20px;
+			min-height: 20px;
+			height: 20px;
+			max-height: 20px;
+			display: inline-block;
+		}
+		.indicadores .color-vivo{
+			background: var(--vivo);
+		}
+		.indicadores .color-muerto{
+			background: var(--muerto);
+		}
+
+			.definiciones input[type = "number"]{
+				border-radius: 5px;
+				border: none;
+				padding: 4px 1px;
+				text-align: center;
+				color: gray;
+				outline: none;
+			}
+			.definiciones label{
+				margin-right: 6px;
+				margin-left: 6px;
+			}
 /*end - controles-superiores*/
+
+
+/*start - controles-inferiores*/
+	.controles-inferiores{
+		padding: var(--marginTB) var(--marginLR);
+		background: var(--secundario);
+		display: block;
+		position: fixed;
+		bottom: 0px;
+		min-width: 100%;
+		width: 100%;
+		max-width: 100%;
+		-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+		display: flex;
+		box-sizing: border-box;
+		justify-content: space-between;
+		transition: all 0.5s;
+	}
+	.controles-inferiores.hidden{
+		bottom: -50%;
+		transition: all 0.5s;
+	}
+/*end - controles-inferiores*/
+
+
+
+/*start - cuadricula*/
+	.cuadricula{
+		background: gray;
+		margin: 60px 200px;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		max-width: 500px;
+		min-width: 100px;
+		margin-left: auto;
+		margin-right: auto;
+		grid-auto-rows: minmax(0px, auto);
+		grid-gap: 1px;
+		padding: 1px;
+	}
+		.cuadro{
+			height: 20px;
+			background: var(--muerto);
+		}
+		.cuadro.active{
+			background: var(--vivo);
+		}
+/*end - cuadricula*/
+
