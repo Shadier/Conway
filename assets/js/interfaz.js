@@ -9,19 +9,35 @@ $("#btnPlay").click(function (event) {
 	event.preventDefault();
 	$(this).addClass("inactive");
 	$("#btnPause").removeClass("inactive");
+	interfaz.playGame();
 });
 
 $("#btnPause").click(function (event) {
 	event.preventDefault();
 	$(this).addClass("inactive");
 	$("#btnPlay").removeClass("inactive");
+	interfaz.board.status=false;
+	interfaz.board.stop();
 });
 
 $("#btnEraser").click(function (event) {
 	event.preventDefault();
 	$("#btnPause").addClass("inactive");
 	$("#btnPlay").removeClass("inactive");
+	interfaz.board.status=false;
+	interfaz.board.stop();
 	interfaz.drawBoard();
+});
+
+$("#btnSkip").click(function (event) {
+	event.preventDefault();
+	$("#btnPause").addClass("inactive");
+	$("#btnPlay").removeClass("inactive");
+	interfaz.nextStep();
+});
+$("#startFromApi").click(function (event) {
+	event.preventDefault();
+	interfaz.board.createBoardFromAPI();
 });
 
 
@@ -58,6 +74,17 @@ class Interfaz{
 	    this.board = new Board(this.rows, this.cols, this.millis);
 		$.when(this.startDrawBoard()).then(this.showBoard());
 	}
+	updateBoard(){
+		for (var i = 0; i < this.rows; i++) {
+			for (var j = 0; j < this.cols; j++) {
+				if (this.board.completeFirstBoard[i][j] == 1)
+					$("#r"+i+"c"+j).addClass('active');
+				else
+					$("#r"+i+"c"+j).removeClass('active');
+
+			}
+		}
+	}
 	startDrawBoard(){
 		$(".cuadricula").attr("style", "display: none;");
 		$(".cuadricula").empty();
@@ -66,6 +93,11 @@ class Interfaz{
 				$(".cuadricula").append(`<div id="r${i}c${j}" class="cuadro bg-muerto"></div>`);
 			}
 		}
+	}
+	playGame(){
+		this.board.status = true;
+		this.board.play();
+		this.updateBoard();
 	}
 	showBoard(){
 		$(".cuadricula").attr("style", "display: grid;");

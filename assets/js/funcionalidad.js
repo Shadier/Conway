@@ -46,17 +46,16 @@ class Board{
 		this.millis = newValue;
 	}
 
-	play(status = true){
-		this.status = status;
-		if ((this.millis > 100 && status == true) || status == false) {
+	play(){
+		if ((this.millis > 99 && status == true) || status == false) {
 			for (let i = 0; i < this.rows; i++) 
 				for (let j = 0; j < this.cols; j++) 
 					this.completeSecondBoard[i][j] = this.aliveNeighbors(i, j);
 			this.cloneBoard(this.completeFirstBoard, this.completeSecondBoard);
 			this.clearBoard(this.completeSecondBoard);
-			console.log("entrando");
+			interfaz.updateBoard();
 			if (this.status)
-				this.timer = setTimeout('interfaz.board.play()', this.millis);
+				this.timer = setTimeout(`interfaz.board.play()`, this.millis);
 		}else{
 			console.error("Millis doesn't have a required value!");
 		}
@@ -68,7 +67,8 @@ class Board{
 
 	nextStep(){
 		this.stop();
-		this.play(false);
+		this.status = false;
+		this.play();
 	}
 
 	cloneBoard(paste, copy){
@@ -102,11 +102,11 @@ class Board{
 	}
 
 	down(pos, max){
-		return ((pos - 1) + max) % max;
+		return ((pos - 1) + parseInt(max)) % parseInt(max);
 	}
 
 	up(pos, max){
-		return ((pos + 1) + max) % max;
+		return ((pos + 1) + parseInt(max)) % parseInt(max);
 	}
 
 	createBoardFromAPI(){
@@ -126,6 +126,10 @@ class Board{
 			var jsonBoard = JSON.parse(cadena).cells;
 			this.rows = Object.keys(jsonBoard).length;
 			this.cols = jsonBoard[0].length;
+			interfaz.rows = this.rows;
+			interfaz.cols = this.cols;+
+			$("#txtRows").val(this.rows);
+			$("#txtCols").val(this.cols);
 			this.createBoards();
 			this.fillFromJson(jsonBoard);
 		})
@@ -138,6 +142,8 @@ class Board{
 		for (let i = 0; i < this.rows; i++) 
 			for (let j = 0; j < this.cols; j++) 
 				this.completeFirstBoard[i][j] = jsonBoard[i][j];
+		$.when(interfaz.startDrawBoard()).then(interfaz.showBoard());
+		interfaz.updateBoard();
 	}
 }
 
